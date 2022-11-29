@@ -1,0 +1,848 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!-- TODO: Update blank fragment layout -->
+    <data>
+        <variable
+            name="DataWeatherCity"
+            type="com.hao.hweather2.model.DataWeatherCity" />
+
+        <import type="com.hao.hweather2.fragment.CityPagerFragment.FormatData"/>
+        <import type="com.hao.hweather2.fragment.CityPagerFragment.FormatTime"/>
+        <import type="android.content.Context"/>
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:background="#E4E2E4"
+        android:layout_height="match_parent">
+
+
+        <ScrollView
+            android:id="@+id/scroll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/tvNameCity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="@font/tajawal_regular"
+                        android:text="@{FormatData.convertNameCity(DataWeatherCity.city.name,DataWeatherCity.city.country)}"
+                        android:textColor="@color/black"
+                        android:textSize="40sp" />
+
+
+                    <TextView
+                        android:id="@+id/tvTimeDay"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tvNameCity"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="@font/tajawal_regular"
+                        android:text="@{FormatTime.convertDayTime()}"
+                        android:textColor="@color/black"
+                        android:textSize="20sp" />
+
+                    <ImageView
+                        android:id="@+id/imgWeather"
+                        android:layout_width="200dp"
+                        android:layout_height="200dp"
+                        android:layout_below="@+id/tvTimeDay"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="20dp"
+                        android:src="@drawable/weather" />
+
+
+                    <TextView
+                        android:id="@+id/tvDescripWeather"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/imgWeather"
+                        android:layout_centerHorizontal="true"
+                        android:fontFamily="@font/tajawal_regular"
+                        android:text="@{DataWeatherCity.list.get(2).weather.get(0).description}"
+                        android:textColor="@color/black"
+                        android:textSize="30sp" />
+
+                    <TextView
+                        android:id="@+id/tvTemp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="130dp"
+                        android:layout_below="@+id/tvDescripWeather"
+                        android:layout_marginStart="40dp"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="@font/tajawal_regular"
+                        android:text="@{FormatData.convertToStringTemp(DataWeatherCity.list.get(2).main.temp,context)}"
+                        android:textColor="@color/black"
+                        android:textSize="120sp" />
+
+                    <TextView
+                        android:id="@+id/tvDo"
+                        android:layout_width="50dp"
+                        android:layout_height="70dp"
+                        android:layout_below="@+id/tvDescripWeather"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_toEndOf="@+id/tvTemp"
+                        android:fontFamily="@font/tajawal_light"
+                        android:text="°"
+                        android:textColor="@color/black"
+                        android:textSize="100sp" />
+
+                    <TextView
+                        android:id="@+id/tvdo1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tvDo"
+                        android:layout_marginStart="10dp"
+                        android:layout_toEndOf="@+id/tvTemp"
+                        android:fontFamily="@font/tajawal_light"
+                        android:text="độ "
+                        android:textColor="@color/black"
+                        android:textSize="40sp" />
+
+                    <TextView
+                        android:id="@+id/tvTypeDeg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tvDo"
+                        android:layout_toEndOf="@+id/tvdo1"
+                        android:fontFamily="@font/tajawal_light"
+                        android:text="C"
+                        android:textColor="@color/black"
+                        android:textSize="40sp" />
+
+                    <TextView
+                        android:id="@+id/tvMaxTemp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tvTemp"
+                        android:layout_marginStart="45dp"
+                        android:fontFamily="@font/tajawal_bold"
+                        android:textColor="@color/black"
+                        android:textSize="25sp" />
+
+                    <TextView
+                        android:id="@+id/tv2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tvTemp"
+                        android:layout_toRightOf="@+id/tvMaxTemp"
+                        android:fontFamily="@font/tajawal_bold"
+                        android:text="°C / "
+                        android:textColor="@color/black"
+                        android:textSize="25sp" />
+
+                    <TextView
+                        android:id="@+id/tvMinTemp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tvTemp"
+                        android:layout_toRightOf="@+id/tv2"
+                        android:fontFamily="@font/tajawal_bold"
+                        android:textColor="@color/black"
+                        android:textSize="25sp" />
+
+                    <TextView
+                        android:id="@+id/tv3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tvTemp"
+                        android:layout_toRightOf="@+id/tvMinTemp"
+                        android:fontFamily="@font/tajawal_bold"
+                        android:text="°C"
+                        android:textColor="@color/black"
+                        android:textSize="25sp" />
+
+                    <RelativeLayout
+                        android:layout_marginTop="25dp"
+                        android:id="@+id/rycTime"
+                        android:layout_below="@+id/tvMaxTemp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_view"
+                        android:layout_marginBottom="25dp">
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rvTimeInDay"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+                    </RelativeLayout>
+
+                    <com.github.mikephil.charting.charts.LineChart
+                        android:id="@+id/line_chart_hours"
+                        android:layout_width="match_parent"
+                        android:layout_height="300dp"
+                        android:background="@color/white"
+                        android:layout_below="@+id/rycTime" />
+
+                    <RelativeLayout
+                        android:layout_marginTop="30dp"
+                        android:id="@+id/rycDay"
+                        android:layout_marginBottom="20dp"
+                        android:layout_below="@+id/line_chart_hours"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_view">
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rvDayInWeek"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+                    </RelativeLayout>
+
+
+                    <com.github.mikephil.charting.charts.BarChart
+                        android:id="@+id/line_chart_5days"
+                        android:layout_width="match_parent"
+                        android:layout_height="300dp"
+                        android:layout_below="@+id/rycDay"
+                        android:layout_marginTop="20dp"
+                        android:background="@color/white"
+                         />
+
+                    <TextView
+                        android:id="@+id/tvnote"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/line_chart_5days"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="20dp"
+                        android:fontFamily="@font/tajawal_regular"
+                        android:text="Thông tin chi tiết"
+                        android:textColor="@color/black"
+                        android:textSize="30sp" />
+
+                    <RelativeLayout
+                        android:id="@+id/details"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tvnote"
+                        android:layout_marginTop="15dp"
+                        android:background="@drawable/bg_view"
+                        android:paddingBottom="5dp">
+
+                        <ImageView
+                            android:id="@+id/i1"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:layout_marginStart="25dp"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:src="@drawable/humidity" />
+
+                        <TextView
+                            android:id="@+id/tv4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:layout_toRightOf="@+id/i1"
+                            android:fontFamily="@font/tajawal_regular"
+                            android:text="Humidity"
+                            android:textSize="25sp" />
+
+                        <TextView
+                            android:id="@+id/i11"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginEnd="25dp"
+                            android:layout_marginBottom="10dp"
+                            android:fontFamily="@font/tajawal_regular"
+                            android:text="%"
+                            android:textColor="@color/white"
+                            android:textSize="25sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="25dp"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginBottom="10dp"
+                            android:layout_toLeftOf="@+id/i11"
+                            android:fontFamily="@font/tajawal_regular"
+                            android:text="@{FormatData.convertToString(DataWeatherCity.list.get(2).main.humidity)}"
+                            android:textSize="25sp" />
+
+
+                        <ImageView
+                            android:id="@+id/i2"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:layout_below="@+id/i1"
+                            android:layout_marginStart="25dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:src="@drawable/pressuare" />
+
+                        <TextView
+                            android:id="@+id/tv5"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/i1"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:layout_toRightOf="@+id/i2"
+                            android:fontFamily="@font/tajawal_regular"
+                            android:text="Pressuare"
+                            android:textSize="25sp" />
+
+                        <TextView
+                            android:id="@+id/i22"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/i11"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginEnd="25dp"
+                            android:layout_marginBottom="10dp"
+                            android:fontFamily="@font/tajawal_regular"
+                            android:text="mb"
+                            android:textColor="@color/white"
+                            android:textSize="25sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/i11"
+                            android:layout_marginStart="25dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginBottom="10dp"
+                            android:layout_toLeftOf="@+id/i22"
+                            android:fontFamily="@font/tajawal_regular"
+                            android:text="@{FormatData.convertToString(DataWeatherCity.list.get(2).main.pressure)}"
+                            android:textSize="25sp" />
+
+
+                        <ImageView
+                            android:id="@+id/i3"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:layout_below="@+id/i2"
+                            android:layout_marginStart="25dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:src="@drawable/speed" />
+
+                        <TextView
+                            android:id="@+id/tv6"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/i2"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:layout_toRightOf="@+id/i3"
+                            android:fontFamily="@font/tajawal_regular"
+                            android:text="Wind Speed"
+                            android:textSize="25sp" />
+
+                        <TextView
+                            android:id="@+id/i33"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/i22"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginEnd="25dp"
+                            android:layout_marginBottom="10dp"
+                            android:fontFamily="@font/tajawal_regular"
+                            android:text="kph"
+                            android:textColor="@color/white"
+                            android:textSize="25sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/i22"
+                            android:layout_marginStart="25dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginBottom="10dp"
+                            android:layout_toLeftOf="@+id/i33"
+                            android:fontFamily="@font/tajawal_regular"
+                            android:text="@{FormatData.convertToString(DataWeatherCity.list.get(2).wind.speed)}"
+                            android:textSize="25sp" />
+
+                        <ImageView
+                            android:id="@+id/i4"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:layout_below="@+id/i3"
+                            android:layout_marginStart="25dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:src="@drawable/wind" />
+
+                        <TextView
+                            android:id="@+id/tv7"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/i3"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:layout_toRightOf="@+id/i4"
+                            android:fontFamily="@font/tajawal_regular"
+                            android:text="Wind Direction"
+                            android:textSize="25sp" />
+
+                        <TextView
+                            android:id="@+id/i44"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/i33"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginEnd="25dp"
+                            android:layout_marginBottom="10dp"
+                            android:fontFamily="@font/tajawal_regular"
+                            android:text=""
+                            android:textColor="@color/white"
+                            android:textSize="25sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/i33"
+                            android:layout_marginStart="25dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginBottom="10dp"
+                            android:layout_toLeftOf="@+id/i44"
+                            android:fontFamily="@font/tajawal_regular"
+                            android:text="@{FormatData.convertToString(DataWeatherCity.list.get(2).wind.deg)}"
+                            android:textSize="25sp" />
+
+                        <ImageView
+                            android:id="@+id/i5"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:layout_below="@+id/i4"
+                            android:layout_marginStart="25dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:src="@drawable/visiblity" />
+
+                        <TextView
+                            android:id="@+id/tv8"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/i4"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:layout_toRightOf="@+id/i5"
+                            android:fontFamily="@font/tajawal_regular"
+                            android:text="Visibility"
+                            android:textSize="25sp" />
+
+                        <TextView
+                            android:id="@+id/i55"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/i44"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginEnd="25dp"
+                            android:layout_marginBottom="10dp"
+                            android:fontFamily="@font/tajawal_regular"
+                            android:text="m"
+                            android:textColor="@color/white"
+                            android:textSize="25sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/i44"
+                            android:layout_marginStart="25dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginBottom="10dp"
+                            android:layout_toLeftOf="@+id/i55"
+                            android:fontFamily="@font/tajawal_regular"
+                            android:text="@{FormatData.convertToString(DataWeatherCity.list.get(2).visibility)}"
+                            android:textSize="25sp" />
+
+                        <ImageView
+                            android:id="@+id/i6"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:layout_below="@+id/i5"
+                            android:layout_marginStart="25dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:src="@drawable/cloud" />
+
+                        <TextView
+                            android:id="@+id/tv9"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/i5"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:layout_toRightOf="@+id/i6"
+                            android:fontFamily="@font/tajawal_regular"
+                            android:text="Cloud"
+                            android:textSize="25sp" />
+
+                        <TextView
+                            android:id="@+id/i66"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/i55"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginEnd="25dp"
+                            android:layout_marginBottom="10dp"
+                            android:fontFamily="@font/tajawal_regular"
+                            android:text="%"
+                            android:textColor="@color/white"
+                            android:textSize="25sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/i55"
+                            android:layout_marginStart="25dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginBottom="10dp"
+                            android:layout_toLeftOf="@+id/i66"
+                            android:fontFamily="@font/tajawal_regular"
+                            android:text="@{FormatData.convertToString(DataWeatherCity.list.get(2).clouds.all)}"
+                            android:textSize="25sp" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/abc"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/details"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginBottom="15dp"
+                        android:background="@drawable/bg_view">
+
+                        <ImageView
+                            android:id="@+id/i111"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:layout_marginStart="25dp"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:src="@drawable/sunrise" />
+
+                        <TextView
+                            android:id="@+id/tv10"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:layout_toRightOf="@+id/i111"
+                            android:fontFamily="@font/tajawal_regular"
+                            android:text="Sunrise"
+                            android:textSize="25sp" />
+
+                        <TextView
+                            android:id="@+id/i1111"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginEnd="25dp"
+                            android:layout_marginBottom="10dp"
+                            android:fontFamily="@font/tajawal_regular"
+                            android:text=""
+                            android:textColor="@color/white"
+                            android:textSize="25sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="25dp"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginBottom="10dp"
+                            android:layout_toLeftOf="@+id/i1111"
+                            android:fontFamily="@font/tajawal_regular"
+                            android:text="@{FormatTime.convertTime(DataWeatherCity.city.sunset)}"
+                            android:textSize="25sp" />
+
+
+                        <ImageView
+                            android:id="@+id/i222"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:layout_below="@+id/i111"
+                            android:layout_marginStart="25dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:src="@drawable/sunset" />
+
+                        <TextView
+                            android:id="@+id/tv11"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/i111"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:layout_toRightOf="@+id/i222"
+                            android:fontFamily="@font/tajawal_regular"
+                            android:text="Sunset"
+                            android:textSize="25sp" />
+
+                        <TextView
+                            android:id="@+id/i2222"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/i1111"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginEnd="25dp"
+                            android:layout_marginBottom="10dp"
+                            android:fontFamily="@font/tajawal_regular"
+                            android:text=""
+                            android:textColor="@color/white"
+                            android:textSize="25sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/i1111"
+                            android:layout_marginStart="25dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginBottom="10dp"
+                            android:layout_toLeftOf="@+id/i2222"
+                            android:fontFamily="@font/tajawal_regular"
+                            android:text="@{FormatTime.convertTime(DataWeatherCity.city.sunrise)}"
+                            android:textSize="25sp" />
+
+                        <ImageView
+                            android:id="@+id/i333"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:layout_below="@+id/i222"
+                            android:layout_marginStart="25dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:src="@drawable/rain" />
+
+                        <TextView
+                            android:id="@+id/tv12"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/i222"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:layout_toRightOf="@+id/i333"
+                            android:fontFamily="@font/tajawal_regular"
+                            android:text="Having Rain"
+                            android:textSize="25sp" />
+
+                        <TextView
+                            android:id="@+id/i3333"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/i2222"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginEnd="25dp"
+                            android:layout_marginBottom="10dp"
+                            android:fontFamily="@font/tajawal_regular"
+                            android:text=""
+                            android:textColor="@color/white"
+                            android:textSize="25sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/i2222"
+                            android:layout_marginStart="25dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginBottom="10dp"
+                            android:layout_toLeftOf="@+id/i3333"
+                            android:fontFamily="@font/tajawal_regular"
+                            android:text="@{FormatData.convertToString(DataWeatherCity.list.get(2).rain.get3h())}"
+                            android:textSize="25sp" />
+
+                        <ImageView
+                            android:id="@+id/i444"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:layout_below="@+id/i333"
+                            android:layout_marginStart="25dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:src="@drawable/timezone" />
+
+                        <TextView
+                            android:id="@+id/tv13"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/i333"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:layout_toRightOf="@+id/i333"
+                            android:fontFamily="@font/tajawal_regular"
+                            android:text="Timezone"
+                            android:textSize="25sp" />
+
+                        <TextView
+                            android:id="@+id/i4444"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/i3333"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginEnd="25dp"
+                            android:layout_marginBottom="10dp"
+                            android:fontFamily="@font/tajawal_regular"
+                            android:text=""
+                            android:textColor="@color/white"
+                            android:textSize="25sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/i3333"
+                            android:layout_marginStart="25dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginBottom="10dp"
+                            android:layout_toStartOf="@+id/i4444"
+                            android:fontFamily="@font/tajawal_regular"
+                            android:text="@{FormatData.convertToString(DataWeatherCity.city.timezone)}"
+                            android:textSize="25sp" />
+
+                        <ImageView
+                            android:id="@+id/i555"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:layout_below="@+id/i444"
+                            android:layout_marginStart="25dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:src="@drawable/country" />
+
+                        <TextView
+                            android:id="@+id/tv14"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/i444"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:layout_toRightOf="@+id/i444"
+                            android:fontFamily="@font/tajawal_regular"
+                            android:text="Country"
+                            android:textSize="25sp" />
+
+                        <TextView
+                            android:id="@+id/i5555"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/i4444"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginEnd="25dp"
+                            android:layout_marginBottom="10dp"
+                            android:fontFamily="@font/tajawal_regular"
+                            android:text=""
+                            android:textColor="@color/white"
+                            android:textSize="25sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/i4444"
+                            android:layout_marginStart="25dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginBottom="10dp"
+                            android:layout_toLeftOf="@+id/i4444"
+                            android:fontFamily="@font/tajawal_regular"
+                            android:text="@{DataWeatherCity.city.country}"
+                            android:textSize="25sp" />
+
+
+                    </RelativeLayout>
+
+                    <Button
+                        android:background="#E40990"
+                        android:layout_marginTop="20dp"
+                        android:id="@+id/btnReadmore"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/abc"
+                        android:text="Thêm"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginBottom="20dp"/>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+        </ScrollView>
+
+
+
+
+    </RelativeLayout>
+
+</layout>

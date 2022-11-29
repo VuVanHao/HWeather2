@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragment.QuickSearchFragment"
+    android:background="@color/white"
+    >
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:id="@+id/lnsearch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="10">
+
+        <EditText
+            android:id="@+id/edtSearchName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginBottom="15dp"
+            android:layout_weight="8.5"
+            android:background="@drawable/bg_edt"
+            android:drawableStart="@drawable/ic_baseline_search_24_blue"
+            android:drawablePadding="10dp"
+            android:hint="Search by city"
+            android:padding="10dp"
+            android:textColor="#220101"
+            android:textColorHint="#8A8484"
+            android:textSize="25sp" />
+
+        <ImageView
+            android:id="@+id/btnSearchSpeed"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginBottom="15dp"
+            android:layout_weight="1.5"
+            android:src="@drawable/ic_baseline_search_24_pink" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/contentHistory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lnsearch"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="5dp"
+        android:fontFamily="@font/tajawal_regular"
+        android:text="Các thành phố hàng đầu"
+        android:textColor="@color/black"
+        android:textSize="25sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:id="@+id/tvLine2"
+        android:layout_below="@+id/contentHistory"
+        android:layout_marginTop="10dp"
+        android:background="#A19B9B"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="20dp"/>
+
+    <GridView
+        android:id="@+id/gvSearchCity"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/tvLine2"
+        android:numColumns="3"
+        />
+
+</RelativeLayout>

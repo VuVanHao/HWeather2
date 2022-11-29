@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="0dp"
+        android:background="@drawable/bg_name"
+        android:gravity="center"
+        android:padding="7dp"
+        android:layout_marginStart="5dp"
+        android:text="Hà nội"
+        android:textColor="@color/black"
+        android:clickable="true"/>
+
+    <TextView
+        android:id="@+id/tv_temperature"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_name"
+        android:background="@drawable/bg_green"
+        android:clickable="true"
+        android:fontFamily="sans-serif-condensed"
+        android:gravity="center"
+        android:text="Temp"
+        android:textColor="@android:color/white"
+        android:textSize="16dp" />
+
+    <TextView
+        android:id="@+id/tv_humidity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_name"
+        android:layout_marginLeft="-8dp"
+        android:layout_toRightOf="@id/tv_temperature"
+        android:background="@drawable/bg_humidity"
+        android:clickable="true"
+        android:gravity="center"
+        android:padding="7dp"
+        android:text="H"
+        android:textColor="#ffffff" />
+
+    <TextView
+        android:id="@+id/tv_Des"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="7dp"
+        android:text=""
+        android:layout_marginLeft="0dp"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:background="@drawable/bg_des"
+        android:layout_toRightOf="@id/tv_temperature"
+        android:layout_below="@+id/tv_humidity"
+        android:clickable="true"
+        />
+
+</RelativeLayout>

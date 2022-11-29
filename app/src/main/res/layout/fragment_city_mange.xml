@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragment.CityMangeFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+        <RelativeLayout
+            android:id="@+id/lnActionBar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/btnCancelDel"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="20dp"
+                android:src="@drawable/ic_baseline_close123_24" />
+
+
+            <ListView
+                android:layout_below="@+id/btnCancelDel"
+                android:id="@+id/LvCityManage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/flButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginEnd="40dp"
+                android:layout_marginBottom="40dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:src="@drawable/ic_baseline_add_24_red" />
+
+            <Button
+                android:id="@+id/btnDel"
+                android:layout_width="110dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="30dp"
+                android:background="@drawable/bg_btndel"
+                android:text="Xóa" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/design_bottom_sheet"
+            android:layout_width="match_parent"
+            android:layout_height="600dp"
+            android:background="@drawable/bg_search"
+            app:behavior_hideable="true"
+            app:behavior_peekHeight="0dp"
+            app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+            <TextView
+                android:id="@+id/tvcontent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="15dp"
+                android:fontFamily="@font/tajawal_regular"
+                android:text="Thêm thành phố"
+                android:textColor="@color/black"
+                android:textSize="30sp" />
+
+            <LinearLayout
+                android:layout_marginTop="10dp"
+                android:id="@+id/lnsearch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="10"
+                android:layout_below="@+id/tvcontent"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:textColor="@color/black"
+                    android:layout_weight="7.5"
+                    android:id="@+id/edtSearchName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginBottom="15dp"
+                    android:background="@drawable/bg_edt"
+                    android:drawableStart="@drawable/ic_baseline_search_24_blue"
+                    android:drawablePadding="5dp"
+                    android:hint="Name city"
+                    android:padding="10dp"
+                    android:textColorHint="#433535"
+                    android:textSize="25sp" />
+
+                <TextView
+                    android:background="@drawable/bg_cancel"
+                    android:textColor="@color/black"
+                    android:id="@+id/btnCancelSearch"
+                    android:gravity="center"
+                    android:layout_weight="2.5"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="5dp"
+                    android:text="Cancel"
+                    android:textSize="20sp"
+                    android:layout_marginTop="15dp"
+                    android:padding="10dp"
+                    android:fontFamily="@font/tajawal_bold"
+                    android:layout_marginEnd="15dp"
+                    android:layout_marginBottom="15dp" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnSearhAdd"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/lnsearch"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/bg_button"
+                android:fontFamily="@font/tajawal_bold"
+                android:text="Search"
+                android:textColor="@color/black"
+                android:textSize="25sp" />
+
+            <TextView
+                android:id="@+id/contentSearch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/btnSearhAdd"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="25dp"
+                android:fontFamily="@font/tajawal_regular"
+                android:text="Thành phố hàng đầu"
+                android:textColor="@color/black"
+                android:textSize="25sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:id="@+id/tvLine2"
+                android:layout_below="@+id/contentSearch"
+                android:layout_marginTop="10dp"
+                android:background="#A19B9B"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginBottom="20dp"/>
+
+            <GridView
+                android:layout_marginStart="10dp"
+                android:id="@+id/gvListCity"
+                android:layout_marginTop="5dp"
+                android:layout_below="@+id/tvLine2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:numColumns="3"/>
+
+        </RelativeLayout>
+
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</FrameLayout>
