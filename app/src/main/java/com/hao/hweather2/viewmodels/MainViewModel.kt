@@ -24,6 +24,8 @@ class MainViewModel @Inject constructor(private val weatherRepository: WeatherRe
         weatherRepository.getOneWeather(nameCity,lang)
     }
 
+    suspend fun getInforWeather(nameCity:String, lang:String) : DataWeatherCity = weatherRepository.getInforWeather(nameCity,lang)
+
     fun getWeatherLocation(lat : String,lon : String,lang : String) = GlobalScope.launch {
         weatherRepository.getWeatherByLocation(lat,lon,lang)
     }

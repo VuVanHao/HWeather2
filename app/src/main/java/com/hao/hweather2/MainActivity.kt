@@ -23,6 +23,9 @@ import com.hao.hweather2.model.DataWeatherCity
 import com.hao.hweather2.utils.MySharedPreferences
 import com.hao.hweather2.viewmodels.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt
 import uk.co.samuelwall.materialtaptargetprompt.extras.focals.RectanglePromptFocal
 import java.io.IOException
@@ -34,17 +37,17 @@ class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var mainViewModel: MainViewModel
 
-    private var cityWeatherViewPager : CityWeatherViewPager? = null
+    private var cityWeatherViewPager: CityWeatherViewPager? = null
 
     private var lat = ""
     private var lon = ""
 
-    private var geocoder : Geocoder ? = null
+    private var geocoder: Geocoder? = null
 
-    private var cityMangeFragment : CityMangeFragment ? = null
-    private var settingFragment : SettingFragment ?= null
-    private var quickSearchFragment : QuickSearchFragment ? = null
-    private var detailsWeatherFragment : DetailsWeatherFragment ? = null
+    private var cityMangeFragment: CityMangeFragment? = null
+    private var settingFragment: SettingFragment? = null
+    private var quickSearchFragment: QuickSearchFragment? = null
+    private var detailsWeatherFragment: DetailsWeatherFragment? = null
     var stateAddFragment = false
     var stateReload = false
 
@@ -59,25 +62,24 @@ class MainActivity : AppCompatActivity() {
         tapTargetFirstTime()
         checkPermissionAgain()
         imgHomePage.setBackgroundColor(Color.GRAY)
-        if (checkNetwork())
-        {
+        if (checkNetwork()) {
             addPosCurrent(mainViewModel)
             updateListWeather(mainViewModel) // update bị lỗi
 
             mainViewModel.getAllWeather().observe(this) {
                 val listDataWeatherCity: List<DataWeatherCity> = it
-                cityWeatherViewPager = CityWeatherViewPager(supportFragmentManager,listDataWeatherCity)
+                cityWeatherViewPager =
+                    CityWeatherViewPager(supportFragmentManager, listDataWeatherCity)
                 vpCity.adapter = cityWeatherViewPager
                 circle_indicator.setViewPager(vpCity)
                 cityWeatherViewPager!!.registerDataSetObserver(circle_indicator.dataSetObserver)
                 cityWeatherViewPager!!.notifyDataSetChanged()
             }
-        }
-        else
-        {
+        } else {
             mainViewModel.getAllWeather().observe(this) {
                 val listDataWeatherCity: List<DataWeatherCity> = it
-                cityWeatherViewPager = CityWeatherViewPager(supportFragmentManager,listDataWeatherCity)
+                cityWeatherViewPager =
+                    CityWeatherViewPager(supportFragmentManager, listDataWeatherCity)
                 vpCity.adapter = cityWeatherViewPager
                 circle_indicator.setViewPager(vpCity)
                 cityWeatherViewPager!!.registerDataSetObserver(circle_indicator.dataSetObserver)
@@ -90,51 +92,45 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun buttonFunc() {
-        val imgManageCity : ImageView = findViewById(R.id.imgManageCity)
+        val imgManageCity: ImageView = findViewById(R.id.imgManageCity)
         imgManageCity.setOnClickListener {
             cityMangeFragment = CityMangeFragment.newInstance()
             supportFragmentManager
                 .beginTransaction()
-                .add(R.id.fg_contentOther,cityMangeFragment!!)
+                .add(R.id.fg_contentOther, cityMangeFragment!!)
                 .commit()
             stateAddFragment = true
             selectButton(3)
         }
 
-        val imgHomePage : ImageView = findViewById(R.id.imgHomePage)
+        val imgHomePage: ImageView = findViewById(R.id.imgHomePage)
         imgHomePage.setOnClickListener {
-            if (stateAddFragment)
-            {
-                if(cityMangeFragment != null)
-                {
+            if (stateAddFragment) {
+                if (cityMangeFragment != null) {
                     supportFragmentManager
                         .beginTransaction()
                         .remove(cityMangeFragment!!).commit()
                 }
 
-                if (settingFragment != null)
-                {
+                if (settingFragment != null) {
                     supportFragmentManager
                         .beginTransaction()
                         .remove(settingFragment!!).commit()
 
-                    if (stateReload)
-                    {
-                        startActivity(Intent(this,MainActivity::class.java))
+                    if (stateReload) {
+                        startActivity(Intent(this, MainActivity::class.java))
                         stateReload = false
                     }
 
                 }
 
-                if (quickSearchFragment != null)
-                {
+                if (quickSearchFragment != null) {
                     supportFragmentManager
                         .beginTransaction()
                         .remove(quickSearchFragment!!).commit()
                 }
 
-                if (detailsWeatherFragment != null)
-                {
+                if (detailsWeatherFragment != null) {
                     supportFragmentManager
                         .beginTransaction()
                         .remove(detailsWeatherFragment!!).commit()
@@ -145,47 +141,41 @@ class MainActivity : AppCompatActivity() {
             selectButton(2)
         }
 
-        val imgSetting : ImageView = findViewById(R.id.imgSetting)
+        val imgSetting: ImageView = findViewById(R.id.imgSetting)
         imgSetting.setOnClickListener {
-            if (stateAddFragment)
-            {
+            if (stateAddFragment) {
                 settingFragment = SettingFragment.newInstance()
                 supportFragmentManager
                     .beginTransaction()
-                    .replace(R.id.fg_contentOther,settingFragment!!).commit()
-            }
-            else
-            {
+                    .replace(R.id.fg_contentOther, settingFragment!!).commit()
+            } else {
                 settingFragment = SettingFragment.newInstance()
                 supportFragmentManager
                     .beginTransaction()
-                    .add(R.id.fg_contentOther,settingFragment!!).commit()
+                    .add(R.id.fg_contentOther, settingFragment!!).commit()
                 stateAddFragment = true
             }
             selectButton(1)
         }
 
-        val imgSearchMap : ImageView = findViewById(R.id.imgSearchMap)
+        val imgSearchMap: ImageView = findViewById(R.id.imgSearchMap)
         imgSearchMap.setOnClickListener {
-            startActivity(Intent(this,SearchMapActivity::class.java))
+            startActivity(Intent(this, SearchMapActivity::class.java))
         }
 
 
-        val imgSearch : ImageView = findViewById(R.id.imgSearch)
+        val imgSearch: ImageView = findViewById(R.id.imgSearch)
         imgSearch.setOnClickListener {
-            if (stateAddFragment)
-            {
+            if (stateAddFragment) {
                 quickSearchFragment = QuickSearchFragment.newInstance()
                 supportFragmentManager
                     .beginTransaction()
-                    .replace(R.id.fg_contentOther,quickSearchFragment!!).commit()
-            }
-            else
-            {
+                    .replace(R.id.fg_contentOther, quickSearchFragment!!).commit()
+            } else {
                 quickSearchFragment = QuickSearchFragment.newInstance()
                 supportFragmentManager
                     .beginTransaction()
-                    .add(R.id.fg_contentOther,quickSearchFragment!!).commit()
+                    .add(R.id.fg_contentOther, quickSearchFragment!!).commit()
                 stateAddFragment = true
             }
             selectButton(4)
@@ -193,9 +183,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun tapTargetFirstTime() {
-        if(MySharedPreferences.getFirstLaunch(this) == 0)
-        {
-            MySharedPreferences.setFirsLaunch(this,1)
+        if (MySharedPreferences.getFirstLaunch(this) == 0) {
+            MySharedPreferences.setFirsLaunch(this, 1)
             MaterialTapTargetPrompt.Builder(this)
                 .setTarget(imgSetting)
                 .setPrimaryText("Đây là cài đặt")
@@ -265,13 +254,13 @@ class MainActivity : AppCompatActivity() {
             .show()
     }
 
+    @OptIn(DelicateCoroutinesApi::class)
     private fun updateListWeather(mainViewModel: MainViewModel) {
         val list = mainViewModel.getAlRecord()
-        for(i in 1 until list.size - 1)
-        {
-            mainViewModel.getOneWeather(list[i].city.name,"vi")
-            mainViewModel.dataWeatherCity.observe(this) {
-                val dataWeatherCityTop = mainViewModel.getRecord(it.city.id)
+        GlobalScope.launch {
+            for (i in 1 until list.size - 1) {
+                val dataWeatherCityTop = mainViewModel.getRecord(list[i].city.id)
+                val it = mainViewModel.getInforWeather(list[i].city.name, "vi")
                 dataWeatherCityTop.message = it.message
                 dataWeatherCityTop.city = it.city
                 dataWeatherCityTop.cnt = it.cnt
@@ -280,23 +269,18 @@ class MainActivity : AppCompatActivity() {
                 mainViewModel.updateWeather(dataWeatherCityTop)
             }
         }
-
     }
 
 
-    fun getPosition()
-    {
+    fun getPosition() {
         get_GPs()
-        if (!Objects.equals(lat,""))
-        {
-            var name = getNameCity(lat,lon)
-            if (name.length > 1)
-            {
-                if (Objects.equals(name,"Ha Tay"))
-                {
+        if (!Objects.equals(lat, "")) {
+            var name = getNameCity(lat, lon)
+            if (name.length > 1) {
+                if (Objects.equals(name, "Ha Tay")) {
                     name = "hà nội"
                 }
-                mainViewModel.getOneWeather(name,"vi")
+                mainViewModel.getOneWeather(name, "vi")
                 mainViewModel.dataWeatherCity.observe(this) {
                     val dataWeatherCityTop = mainViewModel.getTopRecord()
                     dataWeatherCityTop.message = it.message
@@ -319,23 +303,17 @@ class MainActivity : AppCompatActivity() {
 
     private fun addPosCurrent(mainViewModel: MainViewModel) {
         val count = mainViewModel.getCountRecord()
-        if(count == 0)
-        {
-            mainViewModel.insertWeather("hà nội","vi")
-        }
-        else
-        {
+        if (count == 0) {
+            mainViewModel.insertWeather("hà nội", "vi")
+        } else {
             get_GPs()
-            if (!Objects.equals(lat,""))
-            {
-                var name = getNameCity(lat,lon)
-                if (name.length > 1)
-                {
-                    if (Objects.equals(name,"Ha Tay"))
-                    {
+            if (!Objects.equals(lat, "")) {
+                var name = getNameCity(lat, lon)
+                if (name.length > 1) {
+                    if (Objects.equals(name, "Ha Tay")) {
                         name = "hà nội"
                     }
-                    mainViewModel.getOneWeather(name,"vi")
+                    mainViewModel.getOneWeather(name, "vi")
                     mainViewModel.dataWeatherCity.observe(this) {
                         val dataWeatherCityTop = mainViewModel.getTopRecord()
                         dataWeatherCityTop.message = it.message
@@ -352,13 +330,12 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun get_GPs()
-    {
-        if (ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_COARSE_LOCATION)
+    fun get_GPs() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
             != PackageManager.PERMISSION_GRANTED
             && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-            != PackageManager.PERMISSION_GRANTED )
-        {
+            != PackageManager.PERMISSION_GRANTED
+        ) {
             ActivityCompat.requestPermissions(
                 this, arrayOf(
                     Manifest.permission.ACCESS_FINE_LOCATION,
@@ -366,9 +343,7 @@ class MainActivity : AppCompatActivity() {
                 ),
                 99
             )
-        }
-        else
-        {
+        } else {
             val locationManager = getSystemService(LOCATION_SERVICE) as LocationManager
 
             val location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
@@ -387,43 +362,36 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun getNameCity(lat : String,lon : String) : String
-    {
+    fun getNameCity(lat: String, lon: String): String {
         var nameCity = ""
-        var addresses : List<Address> = ArrayList()
+        var addresses: List<Address> = ArrayList()
         try {
-            if (!Objects.equals(lat,"") && !Objects.equals(lon,"") )
-            {
-                addresses = geocoder!!.getFromLocation(lat.toDouble(),lon.toDouble(),1)
+            if (!Objects.equals(lat, "") && !Objects.equals(lon, "")) {
+                addresses = geocoder!!.getFromLocation(lat.toDouble(), lon.toDouble(), 1)
             }
-        }
-        catch (e : IOException)
-        {
+        } catch (e: IOException) {
             e.printStackTrace()
         }
 
-        if (addresses.size > 0)
-        {
+        if (addresses.size > 0) {
             nameCity = addresses[0].adminArea
         }
         return nameCity
     }
 
-   private fun checkNetwork() : Boolean
-   {
-       val connectivityManager = getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
-       val wifi = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI)
-       val dataMobile = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE)
-       return wifi!!.isConnected || dataMobile!!.isConnected
-   }
+    private fun checkNetwork(): Boolean {
+        val connectivityManager = getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
+        val wifi = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI)
+        val dataMobile = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE)
+        return wifi!!.isConnected || dataMobile!!.isConnected
+    }
 
-    fun checkPermissionAgain()
-    {
-        if (ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_COARSE_LOCATION)
+    fun checkPermissionAgain() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
             != PackageManager.PERMISSION_GRANTED
             && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-            != PackageManager.PERMISSION_GRANTED )
-        {
+            != PackageManager.PERMISSION_GRANTED
+        ) {
             ActivityCompat.requestPermissions(
                 this, arrayOf(
                     Manifest.permission.ACCESS_FINE_LOCATION,
@@ -434,10 +402,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun removeCityFragment(pos : Int)
-    {
-        if (cityMangeFragment != null)
-        {
+    fun removeCityFragment(pos: Int) {
+        if (cityMangeFragment != null) {
             supportFragmentManager
                 .beginTransaction()
                 .remove(cityMangeFragment!!).commit()
@@ -449,55 +415,44 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    fun reloadFragmentSetting()
-    {
-        if (settingFragment != null)
-        {
+    fun reloadFragmentSetting() {
+        if (settingFragment != null) {
             settingFragment = SettingFragment.newInstance()
             supportFragmentManager
                 .beginTransaction()
-                .replace(R.id.fg_contentOther,settingFragment!!).commit()
+                .replace(R.id.fg_contentOther, settingFragment!!).commit()
 
             stateReload = true;
         }
     }
 
-    fun goToSeachFragment(nameCity : String)
-    {
+    fun goToSeachFragment(nameCity: String) {
         detailsWeatherFragment = DetailsWeatherFragment.newInstance(nameCity)
         supportFragmentManager
             .beginTransaction()
-            .replace(R.id.fg_contentOther,detailsWeatherFragment!!).commit()
+            .replace(R.id.fg_contentOther, detailsWeatherFragment!!).commit()
 
         stateAddFragment = true
         selectButton(4)
     }
 
-    fun selectButton(stt : Int)
-    {
-        if (stt == 1)
-        {
+    fun selectButton(stt: Int) {
+        if (stt == 1) {
             imgSetting.setBackgroundColor(Color.DKGRAY)
             imgHomePage.setBackgroundColor(Color.WHITE)
             imgManageCity.setBackgroundColor(Color.WHITE)
             imgSearch.setBackgroundColor(Color.WHITE)
-        }
-        else if (stt == 2)
-        {
+        } else if (stt == 2) {
             imgSetting.setBackgroundColor(Color.WHITE)
             imgHomePage.setBackgroundColor(Color.DKGRAY)
             imgManageCity.setBackgroundColor(Color.WHITE)
             imgSearch.setBackgroundColor(Color.WHITE)
-        }
-        else if (stt == 3)
-        {
+        } else if (stt == 3) {
             imgSetting.setBackgroundColor(Color.WHITE)
             imgHomePage.setBackgroundColor(Color.WHITE)
             imgManageCity.setBackgroundColor(Color.DKGRAY)
             imgSearch.setBackgroundColor(Color.WHITE)
-        }
-        else
-        {
+        } else {
             imgSetting.setBackgroundColor(Color.WHITE)
             imgHomePage.setBackgroundColor(Color.WHITE)
             imgManageCity.setBackgroundColor(Color.WHITE)

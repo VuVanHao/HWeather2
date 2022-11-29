@@ -39,6 +39,17 @@ class WeatherRepository @Inject constructor(
         }
     }
 
+    suspend fun getInforWeather( nameCity:String, lang:String) : DataWeatherCity
+    {
+        var dataWeatherCity : DataWeatherCity ? = null
+        val result = iWeatherServices.getWeatherByNameCity(nameCity,lang,Constants.apiKey)
+        if (result.isSuccessful && result.body() != null)
+        {
+            dataWeatherCity = result.body()
+        }
+        return dataWeatherCity!!
+    }
+
     suspend fun getWeatherByLocation( lat:String, lon:String, lang : String)
     {
         val result = iWeatherServices.getWeatherByLocation(lat,lon,lang,Constants.apiKey)
