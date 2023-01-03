@@ -31,6 +31,4 @@ interface WeatherDAO {
     @Delete
     suspend fun deleteDataWeather(dataWeatherCity: DataWeatherCity)
 
-
-
 }

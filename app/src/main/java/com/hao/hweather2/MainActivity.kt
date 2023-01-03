@@ -64,7 +64,7 @@ class MainActivity : AppCompatActivity() {
         imgHomePage.setBackgroundColor(Color.GRAY)
         if (checkNetwork()) {
             addPosCurrent(mainViewModel)
-            updateListWeather(mainViewModel) // update bị lỗi
+            updateListWeather(mainViewModel)
 
             mainViewModel.getAllWeather().observe(this) {
                 val listDataWeatherCity: List<DataWeatherCity> = it
@@ -258,7 +258,7 @@ class MainActivity : AppCompatActivity() {
     private fun updateListWeather(mainViewModel: MainViewModel) {
         val list = mainViewModel.getAlRecord()
         GlobalScope.launch {
-            for (i in 1 until list.size - 1) {
+            for (i in 0 until list.size - 1) {
                 val dataWeatherCityTop = mainViewModel.getRecord(list[i].city.id)
                 val it = mainViewModel.getInforWeather(list[i].city.name, "vi")
                 dataWeatherCityTop.message = it.message

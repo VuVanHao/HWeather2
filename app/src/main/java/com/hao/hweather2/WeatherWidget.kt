@@ -49,7 +49,10 @@ class WeatherWidget : AppWidgetProvider()  {
 
     override fun onReceive(context: Context?, intent: Intent?) {
 
-        mainViewModel = (context as MainActivity).mainViewModel
+
+        (context?.applicationContext as FakerApplication).applicationComponent.inject(this)//Deu khong nhan
+
+        mainViewModel = (context as MainActivity).mainViewModel//Deu khong nhan
 
         val policy = ThreadPolicy.Builder().permitNetwork().build()
         StrictMode.setThreadPolicy(policy)

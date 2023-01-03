@@ -367,7 +367,7 @@ class CityPagerFragment : Fragment() {
         var position : Int = 0
         for (i in 0 .. 30)
         {
-            if (Objects.equals(FormatTime.convertTime(dataWeatherCity.list[i].dt.toLong()),"12:00"))
+            if (Objects.equals(FormatTime.convertTime(dataWeatherCity.list[i].dt.toLong()),"8:00"))
             {
                 position = i
                 break
