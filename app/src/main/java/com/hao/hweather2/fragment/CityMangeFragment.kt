@@ -15,6 +15,7 @@ import android.widget.AdapterView.OnItemLongClickListener
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.hao.hweather2.MainActivity
@@ -24,6 +25,7 @@ import com.hao.hweather2.model.DataWeatherCity
 import com.hao.hweather2.utils.IDeleteItemListener
 import com.hao.hweather2.utils.MySharedPreferences
 import com.hao.hweather2.viewmodels.MainViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 import javax.inject.Inject
@@ -40,10 +42,10 @@ private const val ARG_PARAM2 = "param2"
  * Use the [CityMangeFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
+@AndroidEntryPoint
 class CityMangeFragment : Fragment(), IDeleteItemListener {
 
-    @Inject
-    lateinit var mainViewModel: MainViewModel
+    private val mainViewModel: MainViewModel by viewModels()
 
     var lvCityManage: ListView ?= null
     var btnDel: Button ?= null
@@ -90,8 +92,6 @@ class CityMangeFragment : Fragment(), IDeleteItemListener {
         val context = container!!.context
         val view = inflater.inflate(R.layout.fragment_city_mange, container, false)
 
-        mainViewModel = (activity as MainActivity).mainViewModel
-        
         listItemDel = ArrayList()
         lang = MySharedPreferences.getLanguage(context)
         lvCityManage = view.findViewById(R.id.LvCityManage)

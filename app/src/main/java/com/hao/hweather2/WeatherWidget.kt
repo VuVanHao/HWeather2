@@ -12,15 +12,17 @@ import android.util.Log
 import android.widget.RemoteViews
 import android.widget.Toast
 import androidx.lifecycle.ProcessLifecycleOwner
+import androidx.lifecycle.ViewModel
 import com.hao.hweather2.utils.MySharedPreferences
 import com.hao.hweather2.viewmodels.MainViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+import kotlin.properties.ReadOnlyProperty
 
-
+@AndroidEntryPoint
 class WeatherWidget : AppWidgetProvider()  {
 
-    @Inject
-    lateinit var mainViewModel: MainViewModel
+    //lateinit var mainViewModel : MainViewModel
 
     override fun onUpdate(
         context: Context?,
@@ -28,7 +30,7 @@ class WeatherWidget : AppWidgetProvider()  {
         appWidgetIds: IntArray?
     ) {
 
-        if (appWidgetIds != null) {
+        /*if (appWidgetIds != null) {
 
             for ( appWidgetId in appWidgetIds)
             {
@@ -44,16 +46,11 @@ class WeatherWidget : AppWidgetProvider()  {
 
                 appWidgetManager?.updateAppWidget(appWidgetId,remoteViews)
             }
-        }
+        }*/
     }
 
-    override fun onReceive(context: Context?, intent: Intent?) {
-
-
-        (context?.applicationContext as FakerApplication).applicationComponent.inject(this)//Deu khong nhan
-
-        mainViewModel = (context as MainActivity).mainViewModel//Deu khong nhan
-
+    override fun onReceive(context: Context, intent: Intent?) {
+        /*
         val policy = ThreadPolicy.Builder().permitNetwork().build()
         StrictMode.setThreadPolicy(policy)
 
@@ -81,7 +78,7 @@ class WeatherWidget : AppWidgetProvider()  {
             remoteViews.setTextViewText(R.id.tv_humidity,"${it.list[2].main.humidity}%")
             remoteViews.setTextViewText(R.id.tv_Des,it.list[2].weather[0].description)
             appWidgetManager.updateAppWidget(watchWigdet, remoteViews);
-        }
+        }*/
     }
 
 }

@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.viewModels
 import com.google.gson.Gson
 import com.hao.hweather2.MainActivity
 import com.hao.hweather2.R
@@ -16,6 +17,7 @@ import com.hao.hweather2.databinding.FragmentDetailsWeatherBinding
 import com.hao.hweather2.model.DataWeatherCity
 import com.hao.hweather2.utils.MySharedPreferences
 import com.hao.hweather2.viewmodels.MainViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 import javax.inject.Inject
 
@@ -29,6 +31,7 @@ private const val ARG_PARAM2 = "param2"
  * Use the [DetailsWeatherFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
+@AndroidEntryPoint
 class DetailsWeatherFragment : Fragment() {
 
     var nameCity  = ""
@@ -51,8 +54,7 @@ class DetailsWeatherFragment : Fragment() {
     var unit = 0
 
 
-    @Inject
-    lateinit var mainViewModel: MainViewModel
+    private val mainViewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,8 +69,6 @@ class DetailsWeatherFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val context = container!!.context
-
-        mainViewModel = (activity as MainActivity).mainViewModel
 
         val binding : FragmentDetailsWeatherBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_details_weather, container, false)
         lang = MySharedPreferences.getLanguage(context)

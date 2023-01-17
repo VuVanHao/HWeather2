@@ -62,7 +62,7 @@ class ManageCityAdapter(var context: Context, var listCity : List<DataWeatherCit
         nameCity.text = dataWeatherCity.city.name
         desc.text = dataWeatherCity.list[2].weather[0].description
         val icon = dataWeatherCity.list[2].weather[0].icon
-        val iconImage : String = "https://openweathermap.org/img/wn/$icon.png"
+        val iconImage = "https://openweathermap.org/img/wn/$icon.png"
         Glide.with(context).load(iconImage).into(imgDes)
         //TODO getTempMin
         var tempMinManage: Double = dataWeatherCity.list[2].main.temp_min
@@ -108,16 +108,16 @@ class ManageCityAdapter(var context: Context, var listCity : List<DataWeatherCit
             {
                 cbDelItem.visibility = View.VISIBLE
             }
-            tvModeTemp.setPadding(0,0,150,0);
-            desc.setPadding(0,0,150,0);
+            tvModeTemp.setPadding(0,0,150,0)
+            desc.setPadding(0,0,150,0)
         }
         else
         {
-            cbDelItem.isChecked = false;
-            cbDelItem.visibility = View.INVISIBLE;
-            tvModeTemp.setPadding(0,0,0,0);
-            Temp.setPadding(150,0,0,0);
-            desc.setPadding(0,0,0,0);
+            cbDelItem.isChecked = false
+            cbDelItem.visibility = View.INVISIBLE
+            tvModeTemp.setPadding(0,0,0,0)
+            Temp.setPadding(150,0,0,0)
+            desc.setPadding(0,0,0,0)
         }
 
         return view

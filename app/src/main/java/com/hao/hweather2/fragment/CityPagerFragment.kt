@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
@@ -29,6 +30,8 @@ import com.hao.hweather2.model.DataWeatherCity
 import com.hao.hweather2.model.WeatherDays
 import com.hao.hweather2.model.WeatherHours
 import com.hao.hweather2.utils.MySharedPreferences
+import com.hao.hweather2.viewmodels.MainViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -48,6 +51,7 @@ private const val ARG_PARAM2 = "param2"
  * Use the [CityPagerFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
+@AndroidEntryPoint
 class CityPagerFragment : Fragment() {
 
     private var dataWeatherCity : DataWeatherCity? = null

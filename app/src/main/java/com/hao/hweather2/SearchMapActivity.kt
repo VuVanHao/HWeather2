@@ -30,9 +30,10 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.hao.hweather2.utils.MySharedPreferences
+import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
-
+@AndroidEntryPoint
 class SearchMapActivity : FragmentActivity(),
     OnMapReadyCallback,
     GoogleApiClient.ConnectionCallbacks,

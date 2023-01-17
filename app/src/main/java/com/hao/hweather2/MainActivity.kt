@@ -11,6 +11,7 @@ import android.net.ConnectivityManager
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -22,6 +23,7 @@ import com.hao.hweather2.fragment.SettingFragment
 import com.hao.hweather2.model.DataWeatherCity
 import com.hao.hweather2.utils.MySharedPreferences
 import com.hao.hweather2.viewmodels.MainViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
@@ -32,10 +34,10 @@ import java.io.IOException
 import java.util.*
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    @Inject
-    lateinit var mainViewModel: MainViewModel
+    private val mainViewModel: MainViewModel by viewModels()
 
     private var cityWeatherViewPager: CityWeatherViewPager? = null
 
@@ -55,17 +57,16 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val appComponent = (application as FakerApplication).applicationComponent
-        appComponent.inject(this)
 
         geocoder = Geocoder(this)
         tapTargetFirstTime()
         checkPermissionAgain()
         imgHomePage.setBackgroundColor(Color.GRAY)
-        if (checkNetwork()) {
-            addPosCurrent(mainViewModel)
-            updateListWeather(mainViewModel)
+        if (checkNetwork()) { //Network is working
+            addPosCurrent(mainViewModel) // check position to set address
+            updateListWeather(mainViewModel) // Update weather city in list
 
+            //Set Adapter and Indicator
             mainViewModel.getAllWeather().observe(this) {
                 val listDataWeatherCity: List<DataWeatherCity> = it
                 cityWeatherViewPager =
@@ -75,7 +76,7 @@ class MainActivity : AppCompatActivity() {
                 cityWeatherViewPager!!.registerDataSetObserver(circle_indicator.dataSetObserver)
                 cityWeatherViewPager!!.notifyDataSetChanged()
             }
-        } else {
+        } else { // Network failed
             mainViewModel.getAllWeather().observe(this) {
                 val listDataWeatherCity: List<DataWeatherCity> = it
                 cityWeatherViewPager =
@@ -86,7 +87,7 @@ class MainActivity : AppCompatActivity() {
                 cityWeatherViewPager!!.notifyDataSetChanged()
             }
         }
-        buttonFunc()
+        buttonFunc() //function of each Button in navigation
 
 
     }
@@ -105,7 +106,7 @@ class MainActivity : AppCompatActivity() {
 
         val imgHomePage: ImageView = findViewById(R.id.imgHomePage)
         imgHomePage.setOnClickListener {
-            if (stateAddFragment) {
+            if (stateAddFragment) { // if one fragment is using --> remove all fragment
                 if (cityMangeFragment != null) {
                     supportFragmentManager
                         .beginTransaction()
@@ -138,28 +139,28 @@ class MainActivity : AppCompatActivity() {
 
                 stateAddFragment = false
             }
-            selectButton(2)
+            selectButton(2) // check point Homepage is picking
         }
 
         val imgSetting: ImageView = findViewById(R.id.imgSetting)
         imgSetting.setOnClickListener {
-            if (stateAddFragment) {
+            if (stateAddFragment) { // if one fragment is using --> replace new fragment
                 settingFragment = SettingFragment.newInstance()
                 supportFragmentManager
                     .beginTransaction()
                     .replace(R.id.fg_contentOther, settingFragment!!).commit()
-            } else {
+            } else { // if no fragment is using --> add new fragment
                 settingFragment = SettingFragment.newInstance()
                 supportFragmentManager
                     .beginTransaction()
                     .add(R.id.fg_contentOther, settingFragment!!).commit()
                 stateAddFragment = true
             }
-            selectButton(1)
+            selectButton(1) // check point setting is picking
         }
 
         val imgSearchMap: ImageView = findViewById(R.id.imgSearchMap)
-        imgSearchMap.setOnClickListener {
+        imgSearchMap.setOnClickListener { // go to Activity search weather by Map
             startActivity(Intent(this, SearchMapActivity::class.java))
         }
 
@@ -182,7 +183,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun tapTargetFirstTime() {
+    private fun tapTargetFirstTime() { // guidelines for first launch
         if (MySharedPreferences.getFirstLaunch(this) == 0) {
             MySharedPreferences.setFirsLaunch(this, 1)
             MaterialTapTargetPrompt.Builder(this)
@@ -256,23 +257,24 @@ class MainActivity : AppCompatActivity() {
 
     @OptIn(DelicateCoroutinesApi::class)
     private fun updateListWeather(mainViewModel: MainViewModel) {
-        val list = mainViewModel.getAlRecord()
+        val lang = MySharedPreferences.getLanguage(this)
+        val list = mainViewModel.getAlRecord()  //get all weather in List
         GlobalScope.launch {
             for (i in 0 until list.size - 1) {
-                val dataWeatherCityTop = mainViewModel.getRecord(list[i].city.id)
-                val it = mainViewModel.getInforWeather(list[i].city.name, "vi")
-                dataWeatherCityTop.message = it.message
+                val dataWeatherCityTop = mainViewModel.getRecord(list[i].city.id)   //get id of weather
+                val it = mainViewModel.getInforWeather(list[i].city.name, lang) // get new data weather by id above
+                dataWeatherCityTop.message = it.message // set new data field
                 dataWeatherCityTop.city = it.city
                 dataWeatherCityTop.cnt = it.cnt
                 dataWeatherCityTop.list = it.list
                 dataWeatherCityTop.cod = it.cod
-                mainViewModel.updateWeather(dataWeatherCityTop)
+                mainViewModel.updateWeather(dataWeatherCityTop) // update record
             }
         }
     }
 
 
-    fun getPosition() {
+    private fun getPosition() {
         get_GPs()
         if (!Objects.equals(lat, "")) {
             var name = getNameCity(lat, lon)
@@ -330,7 +332,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun get_GPs() {
+    private fun get_GPs() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
             != PackageManager.PERMISSION_GRANTED
             && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
@@ -362,7 +364,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun getNameCity(lat: String, lon: String): String {
+    private fun getNameCity(lat: String, lon: String): String {
         var nameCity = ""
         var addresses: List<Address> = ArrayList()
         try {
@@ -373,7 +375,7 @@ class MainActivity : AppCompatActivity() {
             e.printStackTrace()
         }
 
-        if (addresses.size > 0) {
+        if (addresses.isNotEmpty()) {
             nameCity = addresses[0].adminArea
         }
         return nameCity
@@ -386,7 +388,7 @@ class MainActivity : AppCompatActivity() {
         return wifi!!.isConnected || dataMobile!!.isConnected
     }
 
-    fun checkPermissionAgain() {
+    private fun checkPermissionAgain() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
             != PackageManager.PERMISSION_GRANTED
             && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
@@ -436,27 +438,32 @@ class MainActivity : AppCompatActivity() {
         selectButton(4)
     }
 
-    fun selectButton(stt: Int) {
-        if (stt == 1) {
-            imgSetting.setBackgroundColor(Color.DKGRAY)
-            imgHomePage.setBackgroundColor(Color.WHITE)
-            imgManageCity.setBackgroundColor(Color.WHITE)
-            imgSearch.setBackgroundColor(Color.WHITE)
-        } else if (stt == 2) {
-            imgSetting.setBackgroundColor(Color.WHITE)
-            imgHomePage.setBackgroundColor(Color.DKGRAY)
-            imgManageCity.setBackgroundColor(Color.WHITE)
-            imgSearch.setBackgroundColor(Color.WHITE)
-        } else if (stt == 3) {
-            imgSetting.setBackgroundColor(Color.WHITE)
-            imgHomePage.setBackgroundColor(Color.WHITE)
-            imgManageCity.setBackgroundColor(Color.DKGRAY)
-            imgSearch.setBackgroundColor(Color.WHITE)
-        } else {
-            imgSetting.setBackgroundColor(Color.WHITE)
-            imgHomePage.setBackgroundColor(Color.WHITE)
-            imgManageCity.setBackgroundColor(Color.WHITE)
-            imgSearch.setBackgroundColor(Color.DKGRAY)
+    private fun selectButton(stt: Int) {
+        when (stt) {
+            1 -> {
+                imgSetting.setBackgroundColor(Color.DKGRAY)
+                imgHomePage.setBackgroundColor(Color.WHITE)
+                imgManageCity.setBackgroundColor(Color.WHITE)
+                imgSearch.setBackgroundColor(Color.WHITE)
+            }
+            2 -> {
+                imgSetting.setBackgroundColor(Color.WHITE)
+                imgHomePage.setBackgroundColor(Color.DKGRAY)
+                imgManageCity.setBackgroundColor(Color.WHITE)
+                imgSearch.setBackgroundColor(Color.WHITE)
+            }
+            3 -> {
+                imgSetting.setBackgroundColor(Color.WHITE)
+                imgHomePage.setBackgroundColor(Color.WHITE)
+                imgManageCity.setBackgroundColor(Color.DKGRAY)
+                imgSearch.setBackgroundColor(Color.WHITE)
+            }
+            else -> {
+                imgSetting.setBackgroundColor(Color.WHITE)
+                imgHomePage.setBackgroundColor(Color.WHITE)
+                imgManageCity.setBackgroundColor(Color.WHITE)
+                imgSearch.setBackgroundColor(Color.DKGRAY)
+            }
         }
     }
 

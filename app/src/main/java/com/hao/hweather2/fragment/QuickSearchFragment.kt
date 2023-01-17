@@ -9,9 +9,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.viewModels
 import com.hao.hweather2.MainActivity
 import com.hao.hweather2.R
 import com.hao.hweather2.adapter.SearchListCityAdapter
+import com.hao.hweather2.viewmodels.MainViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
 // TODO: Rename parameter arguments, choose names that match
@@ -24,7 +27,10 @@ private const val ARG_PARAM2 = "param2"
  * Use the [QuickSearchFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
+@AndroidEntryPoint
 class QuickSearchFragment : Fragment() {
+
+    private val mainViewModel: MainViewModel by viewModels()
 
     var edtSearchName : EditText ? = null
     var btnSearchSpeed : ImageView ? = null

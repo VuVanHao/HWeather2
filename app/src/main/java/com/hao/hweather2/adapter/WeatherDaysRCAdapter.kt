@@ -12,7 +12,7 @@ import com.hao.hweather2.R
 import com.hao.hweather2.model.WeatherDays
 import com.hao.hweather2.utils.MySharedPreferences
 
-class WeatherDaysRCAdapter(var listWeatherDay : ArrayList<WeatherDays>, val context: Context) : RecyclerView.Adapter<WeatherDaysRCAdapter.WeatherDaysViewHolder>() {
+class WeatherDaysRCAdapter(private var listWeatherDay : ArrayList<WeatherDays>, val context: Context) : RecyclerView.Adapter<WeatherDaysRCAdapter.WeatherDaysViewHolder>() {
 
     class WeatherDaysViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
     {

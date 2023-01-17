@@ -8,10 +8,12 @@ import androidx.lifecycle.viewModelScope
 import com.hao.hweather2.model.DataWeatherCity
 import com.hao.hweather2.repository.WeatherRepository
 import com.hao.hweather2.utils.MySharedPreferences
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 class MainViewModel @Inject constructor(private val weatherRepository: WeatherRepository) : ViewModel() {
 
     val dataWeatherCity : LiveData<DataWeatherCity>

@@ -14,7 +14,7 @@ object MySharedPreferences {
     {
         if (sharedPreferences == null)
         {
-            sharedPreferences = context?.getSharedPreferences(SHARED_NAME,Context.MODE_PRIVATE)
+            sharedPreferences = context.getSharedPreferences(SHARED_NAME,Context.MODE_PRIVATE)
         }
         return sharedPreferences
     }

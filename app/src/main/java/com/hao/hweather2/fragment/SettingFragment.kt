@@ -15,9 +15,12 @@ import android.widget.LinearLayout
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.TextView
+import androidx.fragment.app.viewModels
 import com.hao.hweather2.MainActivity
 import com.hao.hweather2.R
 import com.hao.hweather2.utils.MySharedPreferences
+import com.hao.hweather2.viewmodels.MainViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.serialization.descriptors.buildSerialDescriptor
 import java.util.*
 
@@ -31,7 +34,10 @@ private const val ARG_PARAM2 = "param2"
  * Use the [SettingFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
+@AndroidEntryPoint
 class SettingFragment : Fragment() {
+
+    private val mainViewModel: MainViewModel by viewModels()
 
     var unitTemp : TextView ? = null
     var unitLang : TextView ? = null

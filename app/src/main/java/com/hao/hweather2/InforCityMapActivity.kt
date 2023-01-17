@@ -7,15 +7,18 @@ import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
 import com.hao.hweather2.databinding.ActivityInforCityMapBinding
 import com.hao.hweather2.model.DataWeatherCity
 import com.hao.hweather2.utils.MySharedPreferences
 import com.hao.hweather2.viewmodels.MainViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_infor_city_map.*
 import java.util.*
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class InforCityMapActivity : AppCompatActivity() {
 
     
@@ -25,16 +28,12 @@ class InforCityMapActivity : AppCompatActivity() {
     var binding : ActivityInforCityMapBinding ? = null
     var dataWeatherCity : DataWeatherCity ? = null
 
-    @Inject
-    lateinit var mainViewModel: MainViewModel
+    private val mainViewModel: MainViewModel by viewModels()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_infor_city_map)
-        
-        val appComponent = (application as FakerApplication).applicationComponent
-        appComponent.inject(this)
         
         binding = DataBindingUtil.setContentView(this,R.layout.activity_infor_city_map)
         lang = MySharedPreferences.getLanguage(this)
